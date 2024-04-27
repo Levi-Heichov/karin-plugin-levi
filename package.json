@@ -4,6 +4,7 @@
   "author": "Levi",
   "type": "module",
   "dependencies": {
+    "pingman": "^2.0.0"
   },
   "imports": {
     "#Karin": "./lib/index.js"
