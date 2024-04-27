@@ -7,13 +7,13 @@ Execute the following command in the karin root directory to clone the repositor
 ### Github Mirror
 
 ```
-git clone --depth=1 https://mirror.ghproxy.com/https://github.com/karinjs/karin-plugin-levi ./plugins/karin-plugin-levi
+git clone --depth=1 https://mirror.ghproxy.com/https://github.com/Levi-Heichov/karin-plugin-levi ./plugins/karin-plugin-levi
 ```
 
 ### Github
 
 ```
-git clone --depth=1 https://github.com/karinjs/karin-plugin-levi ./plugins/karin-plugin-levi
+git clone --depth=1 https://github.com/Levi-Heichov/karin-plugin-levi ./plugins/karin-plugin-levi
 ```
 
 ## Install Dependencies
