@@ -1,7 +1,7 @@
 {
-  "name": "karin-plugin-template",
+  "name": "karin-plugin-levi",
   "version": "0.0.1",
-  "author": "Lain",
+  "author": "Levi",
   "type": "module",
   "dependencies": {
   },

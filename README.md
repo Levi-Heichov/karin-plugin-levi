@@ -1,28 +1,29 @@
-[Karin](https://github.com/karinjs/karin) 插件包模板仓库
+[Karin](https://github.com/karinjs/karin) [karin-plugin-template](https://github.com/KarinJS/karin-plugin-template)
 
----
+## Clone Repository
 
-- fork 本仓库
-- 拉取fork后的仓库到本地
-- 修改 `package.json` 文件中的 `name` 和 `description` 字段
-- 将 `README.md` 文件中的内容替换为自己的插件说明。
+Execute the following command in the karin root directory to clone the repository locally
 
-## 克隆仓库
+### Github Mirror
 
-karin根目录执行以下命令克隆仓库到本地
-
-```bash
-git clone https://github.com/karinjs/karin-plugin-template.git ./plugins/karin-plugin-template
+```
+git clone --depth=1 https://mirror.ghproxy.com/https://github.com/karinjs/karin-plugin-levi ./plugins/karin-plugin-levi
 ```
 
-## 安装依赖
+### Github
+
+```
+git clone --depth=1 https://github.com/karinjs/karin-plugin-levi ./plugins/karin-plugin-levi
+```
+
+## Install Dependencies
 
 ```bash
-pnpm install --filter=karin-plugin-template
+pnpm install --filter=karin-plugin-levi
 ```
 
 
-## 开发调试
+## Development And Debugging
 
 ```bash
 node . --dev
