@@ -124,7 +124,7 @@ export class hello extends plugin {
         },
         {
           reg: `^#?(${Object.keys(photoValueMap).join('|')})$`,
-          fnc: 'jh'
+          fnc: 'photojh'
         },
         {
           reg: `^#?(${Object.keys(videoValueMap).join('|')})$`,
