@@ -12,4 +12,4 @@ const dirPath = './plugins/' + basename
 
 export { dirPath }
 
-logger.info(basename + ' 插件 0.0.1初始化~')
+logger.info(basename + ' 插件 0.0.2初始化~')

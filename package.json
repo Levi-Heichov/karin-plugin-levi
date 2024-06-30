@@ -1,9 +1,10 @@
 {
   "name": "karin-plugin-levi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Levi",
   "type": "module",
   "dependencies": {
+    "he": "^1.2.0",
     "node-fetch": "^3.3.2",
     "pingman": "^2.0.0"
   },

@@ -1,4 +1,9 @@
+/* eslint-disable import/no-unresolved */
 import { plugin, segment } from '#Karin'
+import { getRandomLineFromFile } from '../utils/common.js'
+import he from 'he'
+
+const rootPath = process.cwd() + '/plugins/karin-plugin-levi'
 
 const girlValueMap = {
   jk: 'jk',
@@ -106,6 +111,18 @@ const videoValueMap = {
   汉服系列: 'hanfu'
 }
 
+const textValueMap = {
+  kfc: 'kfc',
+  v50: 'kfc',
+  网易云热评: 'wyy',
+  舔狗日记: 'tg',
+  污污: 'saohua',
+  污句子: 'saohua',
+  日记: 'riji',
+  随机日记: 'riji',
+  新春祝福: 'newyear'
+}
+
 export class hello extends plugin {
   constructor () {
     super({
@@ -120,7 +137,7 @@ export class hello extends plugin {
         },
         {
           reg: `^#?(${Object.keys(faceValueMap).join('|')})$`,
-          fnc: 'facejh',
+          fnc: 'facejh'
         },
         {
           reg: `^#?(${Object.keys(photoValueMap).join('|')})$`,
@@ -128,7 +145,11 @@ export class hello extends plugin {
         },
         {
           reg: `^#?(${Object.keys(videoValueMap).join('|')})$`,
-          fnc: 'videojh',
+          fnc: 'videojh'
+        },
+        {
+          reg: `^#?(${Object.keys(textValueMap).join('|')})$`,
+          fnc: 'textjh'
         }
       ]
     })
@@ -155,5 +176,15 @@ export class hello extends plugin {
     let resp = await fetch(urls)
     // console.log(resp.url)
     await this.reply(segment.video(resp.url))
+  }
+
+  async textjh () {
+    let name = textValueMap[this.e.msg.replace('#', '')]
+    let path = rootPath + `/resources/json/${name}.json`
+    console.log(path)
+    let result = await getRandomLineFromFile(path)
+    console.log(result)
+    result = he.decode(await result.replace(/<br>/g, '\n'))
+    this.reply(result)
   }
 }
