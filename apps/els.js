@@ -56,7 +56,6 @@ export class RussiaRoundPlatePlugin extends plugin {
       return false
     }
     // 获取一下当前的用户昵称和群id
-    console.log(e.user_id)
     let username = e.sender.nick
     let groupId = e.group_id
     // 判断一下当前群是否开启了俄罗斯轮盘，如果没有开启则开启一下
@@ -76,7 +75,9 @@ export class RussiaRoundPlatePlugin extends plugin {
       arr.shift()
       // 检查一下是否只剩下一发子弹，如果是则结束游戏
       if (arr.length === 1) {
-        e.reply([`【${username}】开了一枪，没响。\n由于只剩一发子弹，本轮游戏结束。\n请使用#开盘 开启新一轮游戏`, segment.image('https://www.loliapi.com/acg/pc/')])
+        e.reply([
+          segment.text(`【${username}】开了一枪，没响。\n由于只剩一发子弹，本轮游戏结束。\n请使用#开盘 开启新一轮游戏`),
+          segment.image('https://www.loliapi.com/acg/pc/')])
         await redis.del(`HANHAN:ELS2:${groupId}`)
         return
       }
@@ -88,8 +89,7 @@ export class RussiaRoundPlatePlugin extends plugin {
     // 如果当前的数组第一项是1，则表示响了，结束游戏
     if (arr[0] === 1) {
       let time = Math.floor(Math.random() * 240) + 60
-      console.log(time)
-      await e.bot.BanMember({ group_id: groupId, target_uid: e.user_id, duration: 1 })
+      await e.bot.BanMember({ group_id: groupId, target_uid: e.user_id, duration: time })
       e.reply(`【${username}】开了一枪，枪响了。\n恭喜【${username}】被禁言${time}秒\n本轮游戏结束。请使用#开盘 开启新一轮游戏`)
       await redis.del(`HANHAN:ELS2:${groupId}`)
     }

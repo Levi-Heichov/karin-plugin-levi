@@ -1,6 +1,6 @@
 {
   "name": "karin-plugin-levi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Levi",
   "type": "module",
   "dependencies": {

@@ -1,5 +1,4 @@
-import { plugin, segment, common } from '#Karin'
-import path from 'path'
+import { plugin, segment } from '#Karin'
 
 export class urlAndBase extends plugin {
   constructor () {
@@ -10,7 +9,7 @@ export class urlAndBase extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^#(sendPic|sendpic|pic)',
+          reg: '^#(sendPic|sendpic|pic|img)',
           fnc: 'sendPicture',
           permission: 'master'
         },
@@ -30,7 +29,7 @@ export class urlAndBase extends plugin {
 
   // sendPicture
   async sendPicture (e) {
-    let url = e.msg.replace(/^#(sendPic|sendpic|pic)/, '').trim()
+    let url = e.msg.replace(/^#(sendPic|sendpic|pic|img)/, '').trim()
     if (!url) return e.reply('This is null, Are you crazy?', true)
     if (url.startsWith('http')) {
       e.reply(segment.image(url))
