@@ -1,4 +1,4 @@
-import { plugin, segment } from '#Karin'
+import { plugin, segment } from 'node-karin'
 
 export class urlAndBase extends plugin {
   constructor () {
@@ -30,7 +30,7 @@ export class urlAndBase extends plugin {
   // sendPicture
   async sendPicture (e) {
     let url = e.msg.replace(/^#(sendPic|sendpic|pic|img)/, '').trim()
-    if (!url) return e.reply('This is null, Are you crazy?', true)
+    if (!url) return e.reply('This is null, Are you crazy?', { reply: true })
     if (url.startsWith('http')) {
       e.reply(segment.image(url))
     }
@@ -39,7 +39,7 @@ export class urlAndBase extends plugin {
   // sendVideo
   async sendVideo (e) {
     let url = e.msg.replace(/^#(sendVid|sendvid|vid)/, '').trim()
-    if (!url) return e.reply('This is null, Are you crazy?', true)
+    if (!url) return e.reply('This is null, Are you crazy?', { reply: true })
     if (url.startsWith('http')) {
       e.reply(segment.video(url))
     }
@@ -48,7 +48,7 @@ export class urlAndBase extends plugin {
   // sendRecord
   async sendRecord (e) {
     let url = e.msg.replace(/^#(sendRec|sendrec|rec)/, '').trim()
-    if (!url) return e.reply('This is null, Are you crazy?', true)
+    if (!url) return e.reply('This is null, Are you crazy?', { reply: true })
     if (url.startsWith('http')) {
       e.reply(segment.record(url))
     }

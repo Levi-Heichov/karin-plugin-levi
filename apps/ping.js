@@ -1,5 +1,5 @@
-import { plugin } from '#Karin'
-import Config from '../lib/config.js'
+import { plugin } from 'node-karin'
+import { config } from '../lib/utils/config.js'
 import { exec } from 'child_process'
 import pingMan from 'pingman'
 import dns from 'dns'
@@ -23,13 +23,13 @@ export class Ping extends plugin {
 
   // ping网站或ip
   async ping (e) {
-    if (!Config.Config.pingToken) {
+    if (!config.Config.pingToken) {
       e.reply('请前往 https://ipinfo.io 注册账号，使用 #憨憨设置pingtoken 命令进行设置，设置好之后请重启')
       return false
     }
 
     let msg = e.msg.trim().replace(/^#?[pP]ing\s/, '').replace(/https?:\/\//, '').trim()
-    await this.reply('在ping了、在ping了。。。', true, { recallMsg: 3 })
+    await this.reply('在ping了、在ping了。。。', { reply: true, recallMsg: 3 })
     let ipInfo; let pingRes; let domain; let ipAddress = msg; let isShowIP = false; const numberOfEchos = 6
     if (e.msg.trim().includes('#Ping')) isShowIP = true
     if (msg !== 'me') {
@@ -64,13 +64,13 @@ export class Ping extends plugin {
         }
       } catch (error) {
         logger.error(`ping 执行出错: ${error}`)
-        await this.reply('ping 执行出错: ', error)
+        await this.reply('ping 执行出错: ' + error)
       }
     }
     try {
       // 通过ipinfo.io获取ip地址相关信息
       ipInfo = await new Promise((resolve, reject) => {
-        exec(`curl https://ipinfo.io/${msg === 'me' ? '' : ipAddress}?token=${Config.Config.pingToken}`, async (error, stdout, stderr) => {
+        exec(`curl https://ipinfo.io/${msg === 'me' ? '' : ipAddress}?token=${config.Config.pingToken}`, async (error, stdout, stderr) => {
           if (error) {
             reject(error)
           } else {
@@ -80,18 +80,18 @@ export class Ping extends plugin {
       })
     } catch (error) {
       logger.error(`exec curl执行出错: ${error}`)
-      await this.reply(`exec curl执行出错: ${error}`, e.isGroup)
+      await this.reply(`exec curl执行出错: ${error}`, { reply: e.isGroup })
       return false
     }
     ipInfo = JSON.parse(ipInfo.trim())
 
     logger.warn(ipInfo)
     if (ipInfo.bogon) {
-      await this.reply(pingRes, e.isGroup)
+      await this.reply(pingRes, { reply: e.isGroup })
       return false
     }
     let res = `${isShowIP ? 'IP: ' + ipInfo.ip + '\n' : ''}${domain ? 'Domain: ' + domain + '\n' : ''}国家/地区：${ipInfo.country}\n区域：${ipInfo.region}\n城市：${ipInfo.city}\n时区：${ipInfo.timezone}\n经纬度：${ipInfo.loc}\n运营商：${ipInfo.org}\n${pingRes || ''}`
-    await this.reply(res, e.isGroup)
+    await this.reply(res, { reply: e.isGroup })
     return true
   }
 }
