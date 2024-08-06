@@ -1,4 +1,4 @@
-import { plugin, segment } from '#Karin'
+import { plugin, segment } from 'node-karin'
 import fetch from 'node-fetch'
 
 export class voice extends plugin {

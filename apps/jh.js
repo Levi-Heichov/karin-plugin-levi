@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { plugin, segment } from '#Karin'
+import { plugin, segment } from 'node-karin'
 import { getRandomLineFromFile } from '../utils/common.js'
 import he from 'he'
 
