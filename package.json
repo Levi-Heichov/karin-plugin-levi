@@ -6,8 +6,9 @@
   "dependencies": {
     "he": "^1.2.0",
     "node-fetch": "^3.3.2",
-    "pingman": "^2.0.0"
-  }, 
+    "pingman": "^2.0.0",
+    "nodejieba": "^3.4.2"
+  },
   "karin": {
     "apps": [
       "apps"
