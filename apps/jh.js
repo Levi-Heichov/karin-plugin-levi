@@ -26,18 +26,14 @@ const girlValueMap = {
   mt: 'meitui',
   随机ai: 'ai',
   随机AI: 'ai',
-  ai: 'ai',
-  AI: 'ai'
 }
 
 const faceValueMap = {
   坤坤: 'cxk',
   小黑子: 'cxk',
-  鸡: 'cxk',
   cxk: 'cxk',
   鸡脚: 'cxk',
   鸽鸽: 'cxk',
-  哥哥: 'cxk',
   一二布布: 'bubu',
   废柴: 'cheems',
   小恐龙: 'xiaokonglong',
