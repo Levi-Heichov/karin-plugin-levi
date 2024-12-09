@@ -1,4 +1,4 @@
-import { redis, plugin, segment } from '#Karin'
+import { redis, plugin, segment } from 'node-karin'
 
 export class RussiaRoundPlatePlugin extends plugin {
   constructor () {
