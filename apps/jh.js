@@ -1,5 +1,4 @@
-/* eslint-disable import/no-unresolved */
-import { plugin, segment } from '#Karin'
+import { karin, segment } from 'node-karin'
 import { getRandomLineFromFile } from '../utils/common.js'
 import he from 'he'
 
@@ -27,7 +26,7 @@ const girlValueMap = {
   随机ai: 'ai',
   随机AI: 'ai',
   ai: 'ai',
-  AI: 'ai'
+  AI: 'ai',
 }
 
 const faceValueMap = {
@@ -73,7 +72,7 @@ const faceValueMap = {
   兄弟兄弟: 'jixuanyou',
   兄弟你好香: 'jixuanyou',
   柴郡: 'chaijun',
-  随机柴郡: 'chaijun'
+  随机柴郡: 'chaijun',
 }
 
 const photoValueMap = {
@@ -82,7 +81,7 @@ const photoValueMap = {
   兽猫酱: 'shoumao',
   甘城: 'maoyuna',
   萌宠: 'mengc',
-  可爱萌宠: 'mengc'
+  可爱萌宠: 'mengc',
 }
 
 const videoValueMap = {
@@ -108,7 +107,7 @@ const videoValueMap = {
   学姐系列: 'xuejie',
   卡哇伊: 'kawayi',
   清纯系列: 'qingchun',
-  汉服系列: 'hanfu'
+  汉服系列: 'hanfu',
 }
 
 const textValueMap = {
@@ -120,71 +119,43 @@ const textValueMap = {
   污句子: 'saohua',
   日记: 'riji',
   随机日记: 'riji',
-  新春祝福: 'newyear'
+  新春祝福: 'newyear',
 }
 
-export class hello extends plugin {
-  constructor () {
-    super({
-      name: 'levi-g',
-      dsc: 'levi-g',
-      event: 'message',
-      priority: 5000,
-      rule: [
-        {
-          reg: `^#?(${Object.keys(girlValueMap).join('|')})$`,
-          fnc: 'girljh'
-        },
-        {
-          reg: `^#?(${Object.keys(faceValueMap).join('|')})$`,
-          fnc: 'facejh'
-        },
-        {
-          reg: `^#?(${Object.keys(photoValueMap).join('|')})$`,
-          fnc: 'photojh'
-        },
-        {
-          reg: `^#?(${Object.keys(videoValueMap).join('|')})$`,
-          fnc: 'videojh'
-        },
-        {
-          reg: `^#?(${Object.keys(textValueMap).join('|')})$`,
-          fnc: 'textjh'
-        }
-      ]
-    })
-  }
+export const girljh = karin.command(`^#?(${Object.keys(girlValueMap).join('|')})$`, async (e) => {
+  const name = girlValueMap[e.msg.replace('#', '')]
+  await e.reply(segment.image(`http://hanhan.avocado.wiki?${name}`))
+  return true
+}, { name: 'girljh' })
 
-  async girljh () {
-    let name = girlValueMap[this.e.msg.replace('#', '')]
-    await this.reply(segment.image(`http://hanhan.avocado.wiki?${name}`))
-  }
+export const facejh = karin.command(`^#?(${Object.keys(faceValueMap).join('|')})$`, async (e) => {
+  const name = faceValueMap[e.msg.replace('#', '')]
+  await e.reply(segment.image(`http://hanhan.avocado.wiki/?${name}`))
+  return true
+}, { name: 'facejh' })
 
-  async facejh () {
-    let name = faceValueMap[this.e.msg.replace('#', '')]
-    await this.reply(segment.image(`http://hanhan.avocado.wiki/?${name}`))
-  }
+export const photojh = karin.command(`^#?(${Object.keys(photoValueMap).join('|')})$`, async (e) => {
+  const name = photoValueMap[e.msg.replace('#', '')]
+  await e.reply(segment.image(`http://hanhan.avocado.wiki/?${name}`))
+  return true
+}, { name: 'photojh' })
 
-  async photojh () {
-    let name = photoValueMap[this.e.msg.replace('#', '')]
-    await this.reply(segment.image(`http://hanhan.avocado.wiki/?${name}`))
-  }
+export const videojh = karin.command(`^#?(${Object.keys(videoValueMap).join('|')})$`, async (e) => {
+  const name = videoValueMap[e.msg.replace('#', '')]
+  const urls = `http://ap.hanhan.icu:4006?category=${name}`
+  const resp = await fetch(urls)
+  // console.log(resp.url)
+  await e.reply(segment.video(resp.url))
+  return true
+}, { name: 'videojh' })
 
-  async videojh () {
-    let name = videoValueMap[this.e.msg.replace('#', '')]
-    let urls = `http://ap.hanhan.icu:4006?category=${name}`
-    let resp = await fetch(urls)
-    // console.log(resp.url)
-    await this.reply(segment.video(resp.url))
-  }
-
-  async textjh () {
-    let name = textValueMap[this.e.msg.replace('#', '')]
-    let path = rootPath + `/resources/json/${name}.json`
-    console.log(path)
-    let result = await getRandomLineFromFile(path)
-    console.log(result)
-    result = he.decode(await result.replace(/<br>/g, '\n'))
-    this.reply(result)
-  }
-}
+export const textjh = karin.command(`^#?(${Object.keys(textValueMap).join('|')})$`, async (e) => {
+  const name = textValueMap[e.msg.replace('#', '')]
+  const path = rootPath + `/resources/json/${name}.json`
+  console.log(path)
+  let result = await getRandomLineFromFile(path)
+  console.log(result)
+  result = he.decode(await result.replace(/<br>/g, '\n'))
+  await e.reply(result)
+  return true
+}, { name: 'textjh' })

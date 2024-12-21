@@ -3,12 +3,22 @@
   "version": "0.0.3",
   "author": "Levi",
   "type": "module",
+  "main": "index.js",
   "dependencies": {
     "he": "^1.2.0",
-    "node-fetch": "^3.3.2",
     "pingman": "^2.0.0"
   },
-  "imports": {
-    "#Karin": "./lib/index.js"
+  "karin": {
+    "apps": [
+      "apps"
+    ],
+    "static": [
+      "resources"
+    ],
+    "files": [
+      "config",
+      "data",
+      "resources"
+    ]
   }
 }

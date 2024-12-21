@@ -1,77 +1,53 @@
-import { plugin, segment } from '#Karin'
-import fetch from 'node-fetch'
+import { karin, segment, axios } from 'node-karin'
 
-export class voice extends plugin {
-  constructor () {
-    super({
-      name: 'levi-voice',
-      dsc: 'levi-voice',
-      event: 'message',
-      priority: 5000,
-      rule: [
-        {
-          reg: '^#?(唱鸭|随机唱鸭)$',
-          fnc: 'sjcy'
-        },
-        {
-          reg: '^#?(坤坤语音|随机坤坤)$',
-          fnc: 'sjkk'
-        },
-        {
-          reg: '^#?(网易云|随机网易云)$',
-          fnc: 'sjwyy'
-        },
-        {
-          reg: '^#?骂我$',
-          fnc: 'maren'
-        },
-        {
-          reg: '^#?(绿茶|随机绿茶)$',
-          fnc: 'lvcha'
-        }
-      ]
-    })
-  }
+export const sjcy = karin.command('^#?(唱鸭|随机唱鸭)$', async (e) => {
+  await e.reply(segment.record('http://api.yujn.cn/api/changya.php?type=mp3'))
+  return true
+}, { name: '随机唱鸭' })
 
-  // 随机网易云
-  async sjwyy (e) {
-    let url = 'https://api.yujn.cn/api/sjwyy.php?type=json'
-    let response = await fetch(url) // 调用接口获取数据
-    let result = await response.json()
-    if (result.code != 200) {
+export const sjkk = karin.command('^#?(坤坤语音|随机坤坤)$', async (e) => {
+  await e.reply(segment.record('http://api.yujn.cn/api/sjkunkun.php?'))
+  return true
+}, { name: '随机坤坤' })
+
+export const sjwyy = karin.command('^#?(网易云|随机网易云)$', async (e) => {
+  let retryCount = 0
+  const fnc = async () => {
+    if (retryCount >= 3) {
+      retryCount = 0
+      return e.reply('已尝试3次，仍未获取到普通歌曲，请稍后再试')
+    }
+
+    const url = 'https://api.yujn.cn/api/sjwyy.php?type=json'
+    const response = await axios.get(url)
+    if (response.code !== 200) {
       return e.reply('api寄了')
     }
+
+    const result = response.data
     console.log(result)
+
     if (result.id) {
-      await this.reply(segment.image(result.img))
-      await this.reply(segment.record(result.url))
+      await e.reply(segment.image(result.img))
+      await e.reply(segment.record(result.url))
     } else {
-      this.reply('随机到vip歌曲了，已自动随机下一首')
-      this.sjwyy()
+      retryCount++
+      await e.reply('随机到vip歌曲了，已自动随机下一首')
+      return fnc()
     }
   }
 
-  // 随机唱鸭
-  async sjcy (e) {
-    await this.reply(segment.record('http://api.yujn.cn/api/changya.php?type=mp3'))
-    return true // 返回true 阻挡消息不再往下
-  }
+  await fnc()
+  retryCount = 0
+  return true
+}, { name: '随机网易云' })
 
-  // 随机坤坤
-  async sjkk (e) {
-    await this.reply(segment.record('http://api.yujn.cn/api/sjkunkun.php?'))
-    return true // 返回true 阻挡消息不再往下
-  }
+export const maren = karin.command('^#?骂我$', async (e) => {
+  await e.reply(segment.record('http://api.yujn.cn/api/maren.php?'))
+  return true
+}, { name: '骂我' })
 
-  // 随机语音骂人
-  async maren (e) {
-    await this.reply(segment.record('http://api.yujn.cn/api/maren.php?'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 绿茶语音包
-  async lvcha (e) {
-    await this.reply(segment.record('https://api.yujn.cn/api/lvcha.php?'))
-    return true // 返回true 阻挡消息不再往下
-  }
-}
+export const lvcha = karin.command('^#?(绿茶|随机绿茶)$', async (e) => {
+  await e.reply(segment.record('https://api.yujn.cn/api/lvcha.php?'))
+  return true
+}, { name: '随机绿茶' })
