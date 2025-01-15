@@ -1,4 +1,5 @@
-import { karin, axios } from 'node-karin'
+import karin from 'node-karin'
+import axios from 'node-karin/axios'
 
 export const checkWeather = karin.command('^#?(Weather|weather|wea)', async (e) => {
   const msg = e.msg.replace(/^#?(Weather|weather|wea)/, '').trim()

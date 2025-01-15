@@ -1,4 +1,5 @@
-import { karin, segment, axios } from 'node-karin'
+import axios from 'node-karin/axios'
+import { karin, segment } from 'node-karin'
 
 export const sjcy = karin.command('^#?(唱鸭|随机唱鸭)$', async (e) => {
   await e.reply(segment.record('http://api.yujn.cn/api/changya.php?type=mp3'))
