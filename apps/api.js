@@ -1,27 +1,10 @@
-import { plugin } from '#Karin'
+import karin from 'node-karin'
+import axios from 'node-karin/axios'
 
-export class urlAndBase extends plugin {
-  constructor () {
-    super({
-      name: 'levi-api',
-      dsc: 'levi-api',
-      event: 'message',
-      priority: 6,
-      rule: [
-        {
-          reg: '^#?(Weather|weather|wea)',
-          fnc: 'checkWeather'
-        }
-      ]
-    })
-  }
-
-  // checkWeather
-  async checkWeather (e) {
-    let msg = e.msg.replace(/^#?(Weather|weather|wea)/, '').trim()
-    console.log(msg)
-    if (!msg) return e.reply('This is empty, Are you crazy?', true)
-    let response = await fetch(`http://ovoa.cc/api/tianqi.php?msg=${msg}&n=1`)
-    e.reply(await response.text(), true)
-  }
-}
+export const checkWeather = karin.command('^#?(Weather|weather|wea)', async (e) => {
+  const msg = e.msg.replace(/^#?(Weather|weather|wea)/, '').trim()
+  if (!msg) return e.reply('内容为空，你搞什么呢？', true)
+  const response = await axios.get(`http://ovoa.cc/api/tianqi.php?msg=${msg}&n=1`)
+  await e.reply(response.data, true)
+  return true
+})

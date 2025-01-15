@@ -1,15 +1,6 @@
-import path from 'path'
-import { logger, common } from '#Karin'
+import { logger } from 'node-karin'
+import { basename } from './utils/dir.js'
+import { pkg } from './lib/config.js'
 
-/** 当前文件的绝对路径 */
-const filePath = common.absPath(import.meta.url.replace(/^file:(\/\/\/|\/\/)/, ''))
-/** 插件包的目录路径 */
-const dirname = path.dirname(filePath)
-/** 插件包的名称 */
-const basename = path.basename(dirname)
-/** 插件包相对路径 */
-const dirPath = './plugins/' + basename
-
-export { dirPath }
-
-logger.info(basename + ' 插件 0.0.2初始化~')
+/** 请不要在这编写插件 不会有任何效果~ */
+logger.info(`${logger.violet(`[插件:${pkg().version}]`)} ${logger.green(basename)} 初始化完成~`)
